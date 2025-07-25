@@ -1,0 +1,42 @@
+CREATE DATABASE IF NOT EXISTS `ticketbooking_db`;
+
+
+USE `ticketbooking_db`;
+
+
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `username` VARCHAR(50) NOT NULL UNIQUE,
+  `email` VARCHAR(100) NOT NULL UNIQUE,
+  `password` VARCHAR(255) NOT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS `movies` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `title` VARCHAR(255) NOT NULL,
+  `genre` VARCHAR(100),
+  `director` VARCHAR(100),
+  `description` TEXT,
+  `poster_url` VARCHAR(255), -- URL to the movie poster image
+  `release_date` DATE
+);
+
+CREATE TABLE IF NOT EXISTS `bookings` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `user_id` INT NOT NULL,
+  `movie_id` INT NOT NULL,
+  `show_time` VARCHAR(50) NOT NULL,
+  `num_tickets` INT NOT NULL,
+  `total_price` DECIMAL(10, 2) NOT NULL,
+  `booking_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`),
+  FOREIGN KEY (`movie_id`) REFERENCES `movies`(`id`)
+);
+
+//you can use different values according to your need
+INSERT INTO `movies` (`title`, `genre`, `director`, `description`, `poster_url`, `release_date`) VALUES
+('Inception', 'Sci-Fi, Thriller', 'Christopher Nolan', 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.', 'https://placehold.co/300x450/000000/FFFFFF?text=Inception', '2010-07-16'),
+('The Dark Knight', 'Action, Crime, Drama', 'Christopher Nolan', 'When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.', 'https://placehold.co/300x450/1a1a1a/FFFFFF?text=The+Dark+Knight', '2008-07-18'),
+('Parasite', 'Comedy, Drama, Thriller', 'Bong Joon Ho', 'Greed and class discrimination threaten the newly formed symbiotic relationship between the wealthy Park family and the destitute Kim clan.', 'https://placehold.co/300x450/2b2b2b/FFFFFF?text=Parasite', '2019-10-11'),
+('Interstellar', 'Sci-Fi, Adventure, Drama', 'Christopher Nolan', 'A team of explorers travel through a wormhole in space in an attempt to ensure humanity\'s survival.', 'https://placehold.co/300x450/0f0f0f/FFFFFF?text=Interstellar', '2014-11-07');
